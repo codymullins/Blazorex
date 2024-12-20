@@ -72,6 +72,11 @@ namespace Blazorex
             return result;
         }
 
+        public async ValueTask SaveCanvasAsync()
+        {
+            await InvokeVoid("Blazorex.saveCanvas", _id);
+        }
+
         public void ClearRect(float x, float y, float width, float height)
             => this.Call("clearRect", x, y, width, height);
 
@@ -180,6 +185,14 @@ namespace Blazorex
         public void SetLineDash(float[] segments)
             => this.Call("setLineDash", segments);
         
+        public void LineDashOffset(float offset) => this.SetProperty("lineDashOffset", offset);
+        public void Clip() => this.Call("clip");
+
+        public void Ellipse(float x, float y, float radiusX, float radiusY, float rotation, float startAngle, float endAngle, bool anticlockwise = false)
+        {
+            this.Call("ellipse", x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+        }
+        
         #endregion public methods
 
         #region properties
@@ -206,8 +219,8 @@ namespace Blazorex
             }
         }
 
-        private int _lineWidth;
-        public int LineWidth
+        private float _lineWidth;
+        public float LineWidth
         {
             get => _lineWidth;
             set

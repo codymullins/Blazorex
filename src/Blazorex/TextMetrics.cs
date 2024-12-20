@@ -15,4 +15,9 @@
         public float AlphabeticBaseline { get; init; }
         public float IdeographicBaseline { get; init; }
     }
+    
+    public record Path2D
+    {
+        public string Path { get; init; }
+    }
 }

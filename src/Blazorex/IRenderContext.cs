@@ -43,14 +43,18 @@ namespace Blazorex
         void Stroke();
         void Rect(float x, float y, float width, float height);
 
-
+        void Ellipse(float x, float y, float radiusX, float radiusY, float rotation, float startAngle, float endAngle, bool anticlockwise = false);
         object FillStyle { get; set; }
         string StrokeStyle { get; set; }
-        int LineWidth { get; set; }
+        float LineWidth { get; set; }
         string Font { get; set; }
 
         TextAlign TextAlign { get; set; }
         
         void SetLineDash(float[] segments);
+        void LineDashOffset(float offset);
+        void Clip();
+
+        ValueTask SaveCanvasAsync();
     }
 }

@@ -27,6 +27,7 @@ namespace Blazorex
             await JSRuntime.InvokeVoidAsync("Blazorex.initCanvas", Id, managedInstance);
 
             this.RenderContext = new RenderContext2D(Id, this.JSRuntime);
+            this.RenderContext.Scale(this.DevicePixelRatio, DevicePixelRatio);
                         
             await this.OnCanvasReady.InvokeAsync(this);
         }
@@ -57,11 +58,41 @@ namespace Blazorex
         {
             await this.OnMouseMove.InvokeAsync(coords);
         }
-
+        
+        [JSInvokable]
+        public async ValueTask TouchStarted(MouseCoords coords)
+        {
+            await this.OnTouchStarted.InvokeAsync(coords);
+        }
+        
+        [JSInvokable]
+        public async ValueTask TouchMoved(MouseCoords coords)
+        {
+            await this.OnTouchMoved.InvokeAsync(coords);
+        }
+        
+        [JSInvokable]
+        public async ValueTask TouchEnded()
+        {
+            await this.OnTouchEnded.InvokeAsync();
+        }
+        
         [JSInvokable]
         public async ValueTask Resized(int width, int height)
         {
             await this.OnResize.InvokeAsync(new Size(width, height));
+        }
+        
+        [JSInvokable]
+        public async ValueTask MouseUp()
+        {
+            await this.OnMouseUp.InvokeAsync();
+        }
+        
+        [JSInvokable]
+        public async ValueTask MouseDown(MouseEvent coords)
+        {
+            await this.OnMouseDown.InvokeAsync(coords);
         }
 
         #endregion JS interop
@@ -76,6 +107,21 @@ namespace Blazorex
 
         [Parameter]
         public EventCallback<MouseCoords> OnMouseMove { get; set; }
+        
+        [Parameter]
+        public EventCallback<MouseCoords> OnTouchStarted { get; set; }
+        
+        [Parameter]
+        public EventCallback<MouseCoords> OnTouchMoved { get; set; }
+        
+        [Parameter]
+        public EventCallback OnTouchEnded { get; set; }
+        
+        [Parameter]
+        public EventCallback OnMouseUp { get; set; }
+        
+        [Parameter]
+        public EventCallback<MouseEvent> OnMouseDown { get; set; }
 
         [Parameter]
         public EventCallback<Size> OnResize { get; set; }
@@ -100,6 +146,9 @@ namespace Blazorex
 
         [Parameter]
         public int Height { get; set; } = 600;
+        
+        [Parameter]
+        public float DevicePixelRatio { get; set; } = 1;
 
         [Parameter]
         public string Name { get; set; }

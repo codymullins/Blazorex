@@ -1,4 +1,8 @@
 ﻿@inherits CanvasBase
 
-<canvas id="@this.Id" width="@this.Width" height="@this.Height" @ref="@this.ElementReference">    
+<canvas id="@this.Id" 
+        width="@(this.Width * this.DevicePixelRatio)" 
+        height="@(this.Height * this.DevicePixelRatio)" 
+        style="width: @(Width)px; height: @(Height)px;"
+        @ref="@this.ElementReference">
 </canvas> 
